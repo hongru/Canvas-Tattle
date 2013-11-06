@@ -187,7 +187,7 @@ var TextureMapping = {};
                             this.ctx.lineTo(t.p1.px, t.p1.py);
                             this.ctx.lineTo(t.p2.px, t.p2.py);
                             this.ctx.closePath();
-                            this.ctx.strokeStyle = this.stroke;
+                            this.ctx.strokeStyle = '#ff4a00';
                             this.ctx.stroke();
                         }
                     }
