@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8" />
+<style>
+canvas {display:block; border:1px solid #333; margin:0 auto;}
+.ctrl {text-align:center;padding-top: 6px}
+</style>
+
+
+<canvas id="canvas" width="600" height="400"></canvas>
+
+<div class="ctrl">
+<select id="sel">
+	<option value="3">3个点</option>
+	<option value="4" selected="true">4个点</option>
+	<option value="5">5个点</option>
+	<option value="6">6个点</option>
+	<option value="7">7个点</option>
+	<option value="8">8个点</option>
+	<option value="9">9个点</option>
+</select>
+</div>
+
+<script type="text/javascript">
+var canvas = document.getElementById('canvas'),
+	cw = canvas.width,
+	ch = canvas.height,
+	ctx = canvas.getContext('2d');
+
+function getPoints(n) {
+	var arr = [];
+	for (var i = 0; i < n; i ++) {
+		arr.push({
+			x: Math.random()*cw,
+			y: Math.random()*ch
+		});
+	}
+	return arr;
+}
+
+function drawBrokenLine (points) {
+	var cs = [];
+	ctx.beginPath();
+	ctx.moveTo(points[0]['x'], points[0]['y']);
+	for (var i = 1; i < points.length; i ++) {
+		if (points[i].type == 'c') {
+			cs.push(points[i]);
+			if (points.length > 3) continue;
+		}
+		ctx.lineTo(points[i]['x'], points[i]['y']);
+	}
+	ctx.strokeStyle = 'black';
+	ctx.stroke();
+	ctx.closePath();
+
+	for (var i = 0; i < cs.length; i ++) {
+		ctx.beginPath();
+		ctx.arc(cs[i].x, cs[i].y, 5, 0, Math.PI*2, true);
+		ctx.closePath();
+		ctx.strokeStyle = 'red';
+		ctx.stroke();
+	}
+}
+
+function getSegLength(p0, p1) {
+	return Math.sqrt(Math.pow(p0['x']-p1['x'], 2) + Math.pow(p0['y'] - p1['y'], 2));
+}
+function getSegNormal(p0, p1) {
+	var l = getSegLength(p0, p1);
+	return [(p1['x'] - p0['x'])/l, (p1['y'] - p0['y'])/l];
+}
+
+function insertBezierPoints (points) {
+	if (points.length == 3) {
+		points[1].type = 'c';
+		return points;
+	} else if (points.length > 3) {
+		for (var i = 1; i < points.length - 2; i ++) {
+			var p0 = points[i],
+				p1 = points[i+1],
+				l = getSegLength(p0, p1),
+				nor = getSegNormal(p0, p1);
+			var p = {
+				type: 'c',
+				x: p0.x + nor[0]*l/2,
+				y: p0.y + nor[1]*l/2
+			};
+			points.splice(i+1, 0, p);
+			i ++;
+		}
+	}
+	return points;
+}
+
+function clear () {
+	ctx.clearRect(0, 0, cw, ch);
+}
+
+function step1 () {
+	clear();
+	drawBrokenLine(p);
+}
+
+function step2 () {
+	setTimeout(function () {
+		clear();
+		p = insertBezierPoints(p);
+		//console.log(p)
+		drawBrokenLine(p);
+	}, 1000);
+	
+}
+
+function step3 () {
+	setTimeout(function () {
+		clear();
+		ctx.beginPath();
+		for (var i = 0; i < p.length-2; i += 2) {
+			ctx.moveTo(p[i].x, p[i].y);
+			ctx.quadraticCurveTo(p[i+1].x, p[i+1].y, p[i+2].x, p[i+2].y);
+		}
+		ctx.strokeStyle = 'red';
+		ctx.stroke();
+		ctx.closePath();
+		drawBrokenLine(p);
+	}, 2000);
+}
+
+function oneLoop (n) {
+	n = parseInt(n || document.getElementById('sel').value);
+	p = getPoints(n);
+
+	step1();
+	step2();
+	step3();
+}
+
+var p;
+function _init () {
+	oneLoop();
+	setInterval(function () {
+		oneLoop();
+	}, 3000)
+
+}
+
+_init();
+
+
+</script>
+</html>
