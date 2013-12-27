@@ -12,3 +12,4 @@ Canvas Tattle respo
 - [【Canvas杂谈：第一季】我有菱角，请让我变得圆滑](https://github.com/hongru/Canvas-Tattle/issues/19)
 - [【Canvas杂谈：第一季】我是画笔，也是橡皮擦](https://github.com/hongru/Canvas-Tattle/issues/20)
 - [【Canvas杂谈：第一季】我的身后，拖着一条长长的尾巴](https://github.com/hongru/Canvas-Tattle/issues/9)
+- [【Canvas杂谈：第一季】画了一个圆，帮我长出事件](https://github.com/hongru/Canvas-Tattle/issues/6)
