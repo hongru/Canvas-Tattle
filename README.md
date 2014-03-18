@@ -14,3 +14,5 @@ Canvas Tattle respo
 - [【Canvas杂谈：第一季】我的身后，拖着一条长长的尾巴](https://github.com/hongru/Canvas-Tattle/issues/9)
 - [【Canvas杂谈：第一季】画了一个圆，帮我长出事件](https://github.com/hongru/Canvas-Tattle/issues/6)
 - [【Canvas杂谈：第一季】scale不仅仅只是缩放](https://github.com/hongru/Canvas-Tattle/issues/14)
+
+第一季更多：https://github.com/hongru/Canvas-Tattle/issues?page=1&state=closed
